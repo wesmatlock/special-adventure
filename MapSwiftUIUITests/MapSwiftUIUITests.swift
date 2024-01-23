@@ -1,10 +1,3 @@
-//
-//  MapSwiftUIUITests.swift
-//  MapSwiftUIUITests
-//
-//  Created by Wesley Matlock on 1/3/24.
-//
-
 import XCTest
 
 final class MapSwiftUIUITests: XCTestCase {

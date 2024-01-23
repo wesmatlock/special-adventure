@@ -1,10 +1,3 @@
-//
-//  MapSwiftUITests.swift
-//  MapSwiftUITests
-//
-//  Created by Wesley Matlock on 1/3/24.
-//
-
 import XCTest
 @testable import MapSwiftUI
 
