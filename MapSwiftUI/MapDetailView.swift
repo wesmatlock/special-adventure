@@ -6,6 +6,9 @@ struct MapDetailView: View {
     @State private var camera: MapCameraPosition
     @State private var address: String = ""
 
+    @State var selectedCategory: String = "atm"
+    @State private var markers: [DTMarker] = []
+
     init(place: SFPlace) {
         self.place = place
         self._camera = State(
@@ -16,39 +19,57 @@ struct MapDetailView: View {
     }
 
     var body: some View {
-        Map(position: $camera)
-            .overlay {
-                Image(systemName: "pin.fill")
-                    .font(.largeTitle)
-                    .foregroundStyle(Color.orange.gradient)
+        Map(position: $camera) {
+            ForEach(markers) { dtMarker in
+                Marker(dtMarker.name,
+                       coordinate: dtMarker.coordinates)
             }
-            .mapStyle(.standard(pointsOfInterest: .including([MKPointOfInterestCategory.parking, .atm, .bank, .bakery])))
-            .onMapCameraChange { context in
-                camera = MapCameraPosition.region(context.region)
-            }
-            .navigationTitle(place.title)
-            .safeAreaInset(edge: .bottom) {
-                HStack {
-                    Text(address)
-//                    if let currentRegion = camera.region {
-//                        Text("\(currentRegion.center.latitude)")
-//                        Text("\(currentRegion.center.longitude)")
-//                    }
+        }
+        .overlay(alignment: .top) {
+            HStack {
+                Picker(selection: $selectedCategory) {
+                    Text("Pizza")
+                        .tag("pizza")
+                    Text("ATM")
+                        .tag("atm")
+                    Text("Parks")
+                        .tag("park")
+                } label: {
+                    Text("")
                 }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(.thinMaterial)
+                .labelsHidden()
+                .pickerStyle(.segmented)
             }
-            .onChange(of: camera) { oldValue, newValue in
-                Task {
-                    if let location = await lookUpCurrentLocation() {
-                        address = ""
-                        address += location.name ?? ""
-                        address += " "
-                        address += location.locality ?? ""
-                    }
-                }
+            .padding()
+        }
+        .mapStyle(.standard(elevation: .realistic))
+        .onMapCameraChange { context in
+            camera = MapCameraPosition.region(context.region)
+        }
+        .navigationTitle(place.title)
+        .safeAreaInset(edge: .bottom) {
+            HStack {
+                Text(address)
             }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(.thinMaterial)
+        }
+        .onChange(of: camera) { oldValue, newValue in
+            performSearch()
+//            Task {
+//                if let location = await lookUpCurrentLocation() {
+//                    address = ""
+//                    address += location.name ?? ""
+//                    address += " "
+//                    address += location.locality ?? ""
+//                }
+//            }
+        }
+        .onChange(of: selectedCategory) { oldValue, newValue in
+            performSearch()
+        }
+        .navigationTitle(place.title)
     }
 
     private func lookUpCurrentLocation() async -> CLPlacemark? {
@@ -61,8 +82,26 @@ struct MapDetailView: View {
 
         return nil
     }
+
+    private func performSearch() {
+        guard let region = camera.region else { return }
+        let request = MKLocalSearch.Request()
+
+        request.naturalLanguageQuery = selectedCategory
+        request.region = region
+
+        let search = MKLocalSearch(request: request)
+
+        Task {
+            guard let results = try? await search.start() else { return }
+            markers = results.mapItems.map {
+                DTMarker(name: $0.name ?? "",
+                         coordinates: $0.placemark.coordinate)
+            }
+        }
+    }
 }
 
 #Preview {
-    MapDetailView(place: SFPlace.topAttractions[1])
+    MapDetailView(place: SFPlace.topAttractions[0])
 }
