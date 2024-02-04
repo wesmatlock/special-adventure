@@ -3,10 +3,11 @@ import SwiftUI
 
 struct MapDetailView: View {
     var place: SFPlace
+    @State var selectedMapStyle = MapStyleOption.standard
+    @State var selectedCategory: String = "atm"
+
     @State private var camera: MapCameraPosition
     @State private var address: String = ""
-
-    @State var selectedCategory: String = "atm"
     @State private var markers: [DTMarker] = []
 
     init(place: SFPlace) {
@@ -25,22 +26,28 @@ struct MapDetailView: View {
                        coordinate: dtMarker.coordinates)
             }
         }
+        .mapStyle(selectedMapStyle.mapStyle)
         .overlay(alignment: .top) {
-            HStack {
-                Picker(selection: $selectedCategory) {
-                    Text("Pizza")
-                        .tag("pizza")
-                    Text("ATM")
-                        .tag("atm")
-                    Text("Parks")
-                        .tag("park")
-                } label: {
-                    Text("")
+            VStack(alignment: .trailing) {
+                HStack {
+                    Picker(selection: $selectedCategory) {
+                        Text("Pizza")
+                            .tag("pizza")
+                        Text("ATM")
+                            .tag("atm")
+                        Text("Parks")
+                            .tag("park")
+                    } label: {
+                        Text("")
+                    }
+                    .labelsHidden()
+                    .pickerStyle(.segmented)
                 }
-                .labelsHidden()
-                .pickerStyle(.segmented)
+                .padding()
+
+                MultiStateMapStyleButton(selectedState: $selectedMapStyle)
+                    .padding(.trailing, 10)
             }
-            .padding()
         }
         .mapStyle(.standard(elevation: .realistic))
         .onMapCameraChange { context in

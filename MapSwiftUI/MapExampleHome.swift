@@ -24,6 +24,10 @@ struct MapExampleHome: View {
                     .font(.title)
                 }
             }
+            .navigationTitle("SF Top Attractions")
+            .navigationDestination(for: SFPlace.self) { place in
+                MapDetailView(place: place)
+            }
         }
     }
 
@@ -61,10 +65,22 @@ struct MapExampleHome: View {
     private var mapView: some View {
         Map() {
             ForEach(sfPlaces) { place in
-                Marker(place.title, systemImage: place.icon, coordinate: place.coordinates)
-                    .tint(place.color)
+//                Marker(place.title, systemImage: place.icon, coordinate: place.coordinates)
+//                    .tint(place.color)
+                Annotation(place.title, coordinate: place.coordinates, anchor: .bottom) {
+                    ZStack {
+                        Circle()
+                            .frame(width: 40, height: 40)
+                            .foregroundStyle(place.color.gradient.opacity(0.4))
+
+                        Image(place.icon)
+                            .resizable()
+                            .frame(width: 35, height: 35)
+                    }
+                }
             }
         }
+        .mapStyle(.standard(elevation: .realistic, showsTraffic: true))
     }
 }
 
