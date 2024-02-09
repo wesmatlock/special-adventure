@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		627BDA082B46148B00AF2190 /* MapSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 627BDA072B46148B00AF2190 /* MapSwiftUIApp.swift */; };
-		627BDA0A2B46148B00AF2190 /* MainMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 627BDA092B46148B00AF2190 /* MainMapView.swift */; };
 		627BDA0C2B46148D00AF2190 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 627BDA0B2B46148D00AF2190 /* Assets.xcassets */; };
 		627BDA0F2B46148D00AF2190 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 627BDA0E2B46148D00AF2190 /* Preview Assets.xcassets */; };
 		627BDA192B46148D00AF2190 /* MapSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 627BDA182B46148D00AF2190 /* MapSwiftUITests.swift */; };
@@ -42,7 +41,6 @@
 /* Begin PBXFileReference section */
 		627BDA042B46148B00AF2190 /* MapSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		627BDA072B46148B00AF2190 /* MapSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSwiftUIApp.swift; sourceTree = "<group>"; };
-		627BDA092B46148B00AF2190 /* MainMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMapView.swift; sourceTree = "<group>"; };
 		627BDA0B2B46148D00AF2190 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		627BDA0E2B46148D00AF2190 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		627BDA142B46148D00AF2190 /* MapSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,7 +105,6 @@
 			isa = PBXGroup;
 			children = (
 				627BDA072B46148B00AF2190 /* MapSwiftUIApp.swift */,
-				627BDA092B46148B00AF2190 /* MainMapView.swift */,
 				62E7A2832B6056D700C96F64 /* MapExampleHome.swift */,
 				62C3DCDE2B6FDA9C00BA0A47 /* MapStyleOption.swift */,
 				62C3DCE02B6FDAEE00BA0A47 /* MultiStateMapStyleButton.swift */,
@@ -278,7 +275,6 @@
 				62C3DCE12B6FDAEE00BA0A47 /* MultiStateMapStyleButton.swift in Sources */,
 				62E7A2822B60442400C96F64 /* DTMarker.swift in Sources */,
 				627BDA322B4614DC00AF2190 /* SFPlace.swift in Sources */,
-				627BDA0A2B46148B00AF2190 /* MainMapView.swift in Sources */,
 				627BDA342B4616AF00AF2190 /* MapDetailView.swift in Sources */,
 				62C3DCDF2B6FDA9C00BA0A47 /* MapStyleOption.swift in Sources */,
 				62E7A2842B6056D700C96F64 /* MapExampleHome.swift in Sources */,

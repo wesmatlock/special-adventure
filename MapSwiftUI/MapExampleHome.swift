@@ -3,7 +3,7 @@ import SwiftUI
 
 struct MapExampleHome: View {
     let sfPlaces = SFPlace.topAttractions
-    @State private var showMapView = true
+    @State private var showMapView = false
 
     var body: some View {
         NavigationStack {

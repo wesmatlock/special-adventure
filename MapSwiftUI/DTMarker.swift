@@ -5,4 +5,5 @@ struct DTMarker: Identifiable {
     let id = UUID()
     var name: String
     var coordinates: CLLocationCoordinate2D
+    var address: String
 }
