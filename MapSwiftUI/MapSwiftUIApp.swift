@@ -11,7 +11,8 @@ import SwiftUI
 struct MapSwiftUIApp: App {
     var body: some Scene {
         WindowGroup {
-            MainMapView()
+//            MainMapView()
+            MapExampleHome()
         }
     }
 }

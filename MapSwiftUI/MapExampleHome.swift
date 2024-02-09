@@ -3,7 +3,7 @@ import SwiftUI
 
 struct MapExampleHome: View {
     let sfPlaces = SFPlace.topAttractions
-    @State private var showMapView = false
+    @State private var showMapView = true
 
     var body: some View {
         NavigationStack {
@@ -65,8 +65,6 @@ struct MapExampleHome: View {
     private var mapView: some View {
         Map() {
             ForEach(sfPlaces) { place in
-//                Marker(place.title, systemImage: place.icon, coordinate: place.coordinates)
-//                    .tint(place.color)
                 Annotation(place.title, coordinate: place.coordinates, anchor: .bottom) {
                     ZStack {
                         Circle()
@@ -81,6 +79,12 @@ struct MapExampleHome: View {
             }
         }
         .mapStyle(.standard(elevation: .realistic, showsTraffic: true))
+        .mapControls {
+            MapPitchToggle()
+            MapCompass()
+            MapScaleView()
+        }
+        .mapControlVisibility(.visible)
     }
 }
 
