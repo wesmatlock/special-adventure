@@ -12,7 +12,8 @@ struct MapDetailView: View {
     @State var selectedItemId: UUID?
     @State var selectedMarker: DTMarker?
 
-//    @State private var address: String = ""
+    @State private var selectedLookAroundScene: MKLookAroundScene?
+    @State private var showInfoSheet = false
 
     init(place: SFPlace) {
         self.place = place
@@ -57,14 +58,6 @@ struct MapDetailView: View {
             .onMapCameraChange { context in
                 camera = MapCameraPosition.region(context.region)
             }
-            //        .safeAreaInset(edge: .bottom) {
-            //            HStack {
-            //                Text(address)
-            //            }
-            //            .frame(maxWidth: .infinity)
-            //            .padding()
-            //            .background(.thinMaterial)
-            //        }
             .onChange(of: camera) { oldValue, newValue in
                 performSearch()
             }
@@ -72,16 +65,30 @@ struct MapDetailView: View {
                 performSearch()
             }
             .onChange(of: selectedItemId, { _, newValue in
-                selectedMarker = markers.first(where: {$0.id == newValue})
+                if let firstMarker = markers.first(where: { $0.id == newValue }) {
+                    selectedMarker = firstMarker
+                    Task {
+                        let request = MKLookAroundSceneRequest(coordinate: firstMarker.coordinates)
+                        if let scene = try? await request.scene {
+                            selectedLookAroundScene = scene
+                        }
+                        showInfoSheet = true
+                    }
+                }
             })
-
-            Spacer()
-            if let selectedMarker {
-                Text(selectedMarker.address)
-                    .padding(.trailing)
-            } else {
-                Text("---------")
+            .sheet(item: $selectedMarker) { marker in
+                VStack {
+                    if let selectedLookAroundScene {
+                        LookAroundPreview(initialScene: selectedLookAroundScene)
+                    } else if let selectedMarker {
+                        Text(selectedMarker.address)
+                    }
+                }
+                .ignoresSafeArea()
+                .presentationDetents([.fraction(0.15), .medium])
+                .presentationDragIndicator(.visible)
             }
+
         }
         .navigationTitle(place.title)
     }
