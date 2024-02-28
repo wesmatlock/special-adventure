@@ -12,7 +12,8 @@ struct MapSwiftUIApp: App {
     var body: some Scene {
         WindowGroup {
 //            MainMapView()
-            MapExampleHome()
+//            MapExampleHome()
+            ContentView()
         }
     }
 }
